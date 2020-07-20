@@ -19,6 +19,7 @@ interface Options<State> {
     overwrite?: boolean;
     assertStorage?: (storage: Storage) => void | Error;
     merge?: (object1: Object | Array<any>, object2: Object | Array<any>, options: Object) => object | Array<any>;
+    mergeOptions?: Object;
 }
 export default function <State>(options?: Options<State>): (store: Store<State>) => void;
 export {};
