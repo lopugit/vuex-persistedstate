@@ -25,6 +25,7 @@ interface Options<State> {
   overwrite?: boolean;
   assertStorage?: (storage: Storage) => void | Error;
   merge?: (object1: Object | Array<any>, object2: Object | Array<any>, options: Object) => object | Array<any>;
+	mergeOptions?: Object;
 }
 
 export default function <State>(
@@ -95,14 +96,15 @@ export default function <State>(
       store.replaceState(
         options.overwrite
           ? savedState
-          : (options.merge || merge)(store.state, savedState, {
-              arrayMerge:
-                options.arrayMerger ||
-                function (store, saved) {
-                  return saved;
-                },
-              clone: false,
-            })
+          : (options.merge || merge)(store.state, savedState, ( options.mergeOptions || {
+								arrayMerge:
+									options.arrayMerger ||
+									function (store, saved) {
+										return saved;
+									},
+								clone: false,
+							})
+						)
       );
       (options.rehydrated || function () {})(store);
     }
